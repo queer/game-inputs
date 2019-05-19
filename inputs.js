@@ -127,7 +127,43 @@ Inputs.prototype.getBoundKeys = function() {
 
 
 function onKeyEvent(inputs, wasDown, ev) {
-  handleKeyEvent( ev.keyCode, vkey[ev.keyCode], wasDown, inputs, ev )
+  var keycode = ev.keyCode
+  // Translate shift/alt/ctrl/etc. to proper LR variants
+  var vk = vkey[ev.keyCode]
+  switch(vk) {
+    case "<control>": {
+      if(ev.location === 1) {
+        // Left
+        keycode = 162
+      } else if(ev.location === 2) {
+        // Right
+        keycode = 163
+      }
+      break
+    }
+    case "<shift>": {
+      if(ev.location === 1) {
+        // Left
+        keycode = 160
+      } else if(ev.location === 2) {
+        // Right
+        keycode = 161
+      }
+      break
+    }
+    case "<alt>": {
+      if(ev.location === 1) {
+        // Left
+        keycode = 164
+      } else if(ev.location === 2) {
+        // Right
+        keycode = 165
+      }
+      break
+    }
+  }
+  vk = vkey[keycode]
+  handleKeyEvent( keycode, vk, wasDown, inputs, ev )
 }
 
 function onMouseEvent(inputs, wasDown, ev) {
